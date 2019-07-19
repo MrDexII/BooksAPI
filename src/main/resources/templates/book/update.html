@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Update book page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div>
+    <div>
+        <form class="vldform" th:method="put" th:action="@{/book/update/{bookId}(bookId=${book.id})}"
+              th:object="${book}">
+            <h1>Update book</h1>
+            <input class="vldform__textbox" type="text" th:field="*{title}" th:placeholder="Title"
+                   th:autocomplete="off"/>
+            <label th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></label>
+
+            <input class="vldform__textbox" type="text" th:field="*{author}" th:placeholder="Author"
+                   th:autocomplete="off"/>
+            <label th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="error"></label>
+
+            <input class="vldform__textbox" type="text" th:field="*{isbn}" th:placeholder="Isbn" th:autocomplete="off"/>
+            <label th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" class="error"></label>
+
+            <input class="vldform__textbox" type="text" th:field="*{year}" th:placeholder="Year" th:autocomplete="off"/>
+            <label th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="error"></label>
+
+            <input class="vldform__textbox" type="text" th:field="*{pages}" th:placeholder="'Pages count'"
+                   th:autocomplete="off"/>
+            <label th:if="${#fields.hasErrors('pages')}" th:errors="*{pages}" class="error"></label>
+
+            <input class="vldform__textbox" type="text" th:field="*{language}" th:placeholder="Language"
+                   th:autocomplete="off"/>
+            <label th:if="${#fields.hasErrors('language')}" th:errors="*{language}" class="error"></label>
+
+            <input class="vldform__textbox" type="text" th:field="*{category}" th:placeholder="Category"
+                   th:autocomplete="off"/>
+            <label th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="error"></label>
+
+            <input class="vldform__textbox" type="text" th:field="*{publisher}" th:placeholder="Publisher"
+                   th:autocomplete="off"/>
+            <label th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}" class="error"></label>
+
+            <input th:class="vldform__button" th:method="put" type="submit" class="btn" value="Update book"/>
+        </form>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

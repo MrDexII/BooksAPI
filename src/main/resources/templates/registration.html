@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Registration page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div>
+    <form class="vldform" th:action="@{/registration}" th:object="${user}" method="POST">
+        <h1>Sign up</h1>
+
+        <input class="vldform__textbox" type="text" th:field="*{name}" th:placeholder="Name">
+        <label class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+
+        <input class="vldform__textbox" type="text" th:field="*{lastName}" th:placeholder="'Last Name'">
+        <label class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></label>
+
+        <input class="vldform__textbox" type="email" th:field="*{email}" th:placeholder="Email">
+        <label class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
+
+        <input class="vldform__textbox" type="password" th:field="*{password}" th:placeholder="Password">
+        <label class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
+
+        <input class="vldform__button" type="submit" value="Sign up">
+
+        <p class="vldform__signup">You already have account?
+            <a th:href="@{/}" onclick="">Log in</a>
+        </p>
+    </form>
+</div>
+<!--    <div class="form-bottom">-->
+<!--        <form th:action="@{/registration}" method="get">-->
+<!--            <button type="button" class="btn btn-primary">Go to registration page</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
