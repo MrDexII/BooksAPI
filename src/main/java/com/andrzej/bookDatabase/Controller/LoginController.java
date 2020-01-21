@@ -3,6 +3,8 @@ package com.andrzej.bookDatabase.Controller;
 import com.andrzej.bookDatabase.Model.User;
 import com.andrzej.bookDatabase.Service.UserService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
 @Controller
 public class LoginController {
@@ -26,7 +29,7 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.getPrincipal() != "anonymousUser") {
-            return createAdminHomeModel(modelAndView, auth);
+            return createHomeModelAndView(modelAndView, auth);
         }
         modelAndView.setViewName("login");
         return modelAndView;
@@ -60,26 +63,44 @@ public class LoginController {
             modelAndView.addObject("user", new User());
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth.getPrincipal() != "anonymousUser") {
-                return createAdminHomeModel(modelAndView, auth);
+                return createHomeModelAndView(modelAndView, auth);
             } else
                 modelAndView.setViewName("login");
         }
         return modelAndView;
     }
 
+    @RequestMapping(value = {"/home", "/admin/home", "/user/home"}, method = RequestMethod.GET)
+    public ModelAndView home() {
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        if (auth.getAuthorities().contains((new SimpleGrantedAuthority("ADMIN")))) {
+            modelAndView = createHomeModelAndView(modelAndView, auth);
+            modelAndView.setViewName("admin/home");
+            return modelAndView;
+        } else {
+            modelAndView = createHomeModelAndView(modelAndView, auth);
+            modelAndView.setViewName("user/home");
+            return modelAndView;
+        }
+    }
+
+/*
     @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return createAdminHomeModel(modelAndView, auth);
+        return createHomeModelAndView(modelAndView, auth);
     }
+*/
 
-    private ModelAndView createAdminHomeModel(ModelAndView modelAndView, Authentication auth) {
+    private ModelAndView createHomeModelAndView(ModelAndView modelAndView, Authentication auth) {
         User user = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
+        //modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
         modelAndView.addObject("successMessage", "User has been logged in successfully");
-        modelAndView.setViewName("admin/home");
+        //modelAndView.setViewName("admin/home");
         return modelAndView;
     }
 }

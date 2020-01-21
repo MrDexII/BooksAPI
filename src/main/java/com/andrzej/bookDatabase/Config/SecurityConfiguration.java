@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 @Configuration
 @EnableWebSecurity
@@ -31,6 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        addDefaultAdminUser();
         auth.
                 jdbcAuthentication()
                 .usersByUsernameQuery(usersQuery)
@@ -43,23 +45,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/registration").permitAll()
-                    .antMatchers("/admin/**").hasAuthority("ADMIN")
-                    .antMatchers("/book/**").hasAuthority("ADMIN")
-                    .anyRequest().authenticated()
-                    .and().csrf().disable()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/book/**").hasAnyAuthority("ADMIN","USER")
+                .anyRequest().authenticated()
+                .and().csrf().disable()
                 .formLogin()
-                    .loginPage("/login").failureUrl("/login?error=true").defaultSuccessUrl("/admin/home")
-                    .usernameParameter("email").passwordParameter("password")
-                    .and()
+                .loginPage("/login").failureUrl("/login?error=true").defaultSuccessUrl("/home")
+                .usernameParameter("email").passwordParameter("password")
+                .and()
                 .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/")
-                    .and()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                .and()
                 .exceptionHandling()
-                    .accessDeniedPage("/access-denied");
+                .accessDeniedPage("/access-denied");
     }
 
     @Override
@@ -67,6 +69,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+    }
+
+    private void addDefaultAdminUser() throws SQLException {
+        String password = "'" + bCryptPasswordEncoder.encode("admin") + "'";
+        dataSource.getConnection().createStatement().executeUpdate("REPLACE INTO `users` VALUES (1,1,'admin','admin','admin'," + password + ");\n");
+        dataSource.getConnection().createStatement().executeUpdate("REPLACE INTO `user_role` VALUES (1,1),(1,2);");
     }
 
 }

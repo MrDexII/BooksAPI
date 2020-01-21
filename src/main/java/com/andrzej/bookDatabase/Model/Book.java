@@ -4,10 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity(name = "books")
+@SequenceGenerator(name = "book_gen", sequenceName = "book_seq", initialValue = 1)
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "book_gen")
     private Long id;
     @Column(name = "title")
     @NotEmpty(message = "Not empty")

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>User home page</title>
+    <title>Admin home page</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -14,7 +14,7 @@
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="#">
             <img src="/images/book.png" width="30" height="30" class="d-inline-block align-top" alt="">
-            Your user page
+            Your admin page
         </a>
         <form th:action="@{/logout}" method="get">
             <button class="btn" type="submit" name="registration" th:text="Logout"></button>
@@ -23,16 +23,10 @@
     <div class="">
         <span th:utext="${userName}"></span>
     </div>
-    <!--<div class="">
-        <p th:utext="${adminMessage}"></p>
-    </div>-->
-   <div class="">
+    <div class="">
         <p th:utext="${successMessage}"></p>
     </div>
     <div class="d-flex justify-content-center">
-    <form th:action="@{/book/new}" method="get">
-        <button class="btn btn-dark" type="submit">Add new book</button>
-    </form>
     <form th:action="@{/book/show}" method="get">
         <button class="btn btn-light" type="submit">Show all books</button>
     </form>

@@ -7,8 +7,8 @@ import com.andrzej.bookDatabase.Repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service("userService")
 public class UserService {
@@ -29,9 +29,9 @@ public class UserService {
 
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setActive(1);
-        Role userRole = roleRepository.findByRole("ADMIN");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        user.setActive(true);
+        List<Role> userRole = List.of(roleRepository.findByRole("USER"));
+        user.setRoles(userRole);
         return userRepository.save(user);
     }
 }

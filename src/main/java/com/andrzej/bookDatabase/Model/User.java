@@ -5,15 +5,17 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "users")
+@SequenceGenerator(name = "user_gen", sequenceName = "user_seq",initialValue = 2)
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_gen")
     @Column(name = "user_id")
-    private int id;
+    private long id;
     @Column(name = "name")
     @NotEmpty(message = "Name can not be empty")
     private String name;
@@ -28,16 +30,16 @@ public class User {
     @Column(name = "email")
     private String email;
     @Column(name = "active")
-    private int active;
+    private boolean active;
     @Column(name = "roles")
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public User() {
     }
 
-    public User(@NotEmpty(message = "Name can not be empty") String name, @NotEmpty(message = "Last name can not be empty") String lastName, @NotEmpty(message = "Password can not be empty") @Length(min = 5, message = "Password must be at list five characters") String password, @Email() String email, int active, Set<Role> roles) {
+    public User(@NotEmpty(message = "Name can not be empty") String name, @NotEmpty(message = "Last name can not be empty") String lastName, @NotEmpty(message = "Password can not be empty") @Length(min = 5, message = "Password must be at list five characters") String password, @Email() String email, boolean active, List<Role> roles) {
         this.name = name;
         this.lastName = lastName;
         this.password = password;
@@ -46,7 +48,7 @@ public class User {
         this.roles = roles;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -86,19 +88,19 @@ public class User {
         this.email = email;
     }
 
-    public int getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(int active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 }

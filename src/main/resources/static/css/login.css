@@ -26,7 +26,7 @@ body {
 .vldform h1 {
     font-size: 40px;
     color: #552FAB;
-    margin: 0px 0px 26px 0px;
+    margin: 0 0 26px 0;
 }
 
 .vldform__textbox {
@@ -50,7 +50,7 @@ body {
 
 .vldform__recoverypassword {
     align-self: flex-end;
-    margin: 10px 0px;
+    margin: 10px 0;
     font-size: 16px;
     color: #2E67A9;
 }
@@ -71,7 +71,7 @@ body {
 .vldform__signup {
     align-self: center;
     margin-top: 50px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .vldform__signup a {
@@ -95,29 +95,6 @@ body {
 .text-center{
     text-align: center;
 }
-
-/*@media (max-width: 400px) {*/
-/*    .vldform {*/
-/*        width: 350px;*/
-/*        padding: 20px 40px;*/
-/*    }*/
-
-/*}*/
-
-/*@media (max-width: 360px) {*/
-/*    .vldform {*/
-/*        width: 305px;*/
-/*        padding: 20px 35px;*/
-/*    }*/
-
-/*    .vldform__signup {*/
-/*        text-align: center;*/
-/*    }*/
-
-/*    .vldform__signup a {*/
-/*        margin-left: 14px;*/
-/*    }*/
-/*}*/
 
 .error {
     color: firebrick;
