@@ -12,7 +12,7 @@
     <artifactId>bookDatabase</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>bookDatabase</name>
-    <description>Spring Boot database for books</description>
+    <description>Spring Boot database for books using thymeleaf, MySQL</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -82,8 +82,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>9</source>
-                    <target>9</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>

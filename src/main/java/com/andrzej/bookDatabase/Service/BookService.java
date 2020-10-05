@@ -55,7 +55,7 @@ public class BookService {
         ModelAndView modelAndView = new ModelAndView();
         repository.deleteById(id);
         modelAndView.addObject("successMessage", "Book has been successfully delete");
-        modelAndView.setViewName("/admin/home");
+        modelAndView.setViewName("admin/home");
         return modelAndView;
     }
 
