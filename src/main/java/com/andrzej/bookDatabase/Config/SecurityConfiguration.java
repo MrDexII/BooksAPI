@@ -12,17 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     @Value("${spring.queries.users-query}")
     private String usersQuery;
@@ -38,7 +35,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        addDefaultAdminUser();
         auth.
                 jdbcAuthentication()
                 .usersByUsernameQuery(usersQuery)
@@ -75,22 +71,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
-    }
-
-    private void addDefaultAdminUser() throws SQLException {
-        String sql = "SELECT * FROM books.user_role;";
-        try (ResultSet resultSet = dataSource.getConnection().createStatement().executeQuery(sql)) {
-            if (!resultSet.next()) {
-                String password = "'" + bCryptPasswordEncoder.encode("admin") + "'";
-                try (Statement statement = dataSource.getConnection().createStatement()) {
-                    statement.executeUpdate("REPLACE INTO `users` VALUES (1,1,'admin','admin','admin'," + password + ");\n");
-                    statement.executeUpdate("REPLACE INTO `user_role` VALUES (1,1),(1,2);");
-
-                    password = "'" + bCryptPasswordEncoder.encode("user") + "'";
-                    statement.executeUpdate("REPLACE INTO `users` VALUES (2,1,'user','user','user'," + password + ");\n");
-                    statement.executeUpdate("REPLACE INTO `user_role` VALUES (2,2);");
-                }
-            }
-        }
     }
 }
